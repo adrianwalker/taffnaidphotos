@@ -14,6 +14,7 @@ LIST_TEMPLATE = """
 <html>
   <head>
     <title>taffnaid.photos</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/taffnaidphotos.css">
   </head>
@@ -48,6 +49,7 @@ VIEW_TEMPLATE = """
 <html>
   <head>
     <title>taffnaid.photos</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/taffnaidphotos.css">
   </head>
@@ -116,16 +118,18 @@ for root, dirs, files in os.walk(cwd):
         image = os.path.abspath(os.path.join(root, file))
         preview = os.path.abspath(os.path.join(os.path.dirname(image), PREVIEW_PREFIX + os.path.basename(image)))
 
-        cmd = [
-            CONVERT_CMD,
-            "-define", "jpeg:size=%s" % PREVIEW_SIZE,
-            image,
-            "-thumbnail", "%s^" % PREVIEW_SIZE,
-            "-gravity", "center",
-            "-extent", PREVIEW_SIZE,
-            preview]
+        if not os.path.exists(preview):
 
-        call(cmd)
+            cmd = [
+                CONVERT_CMD,
+                "-define", "jpeg:size=%s" % PREVIEW_SIZE,
+                image,
+                "-thumbnail", "%s^" % PREVIEW_SIZE,
+                "-gravity", "center",
+                "-extent", PREVIEW_SIZE,
+                preview]
+
+            call(cmd)
 
         view_file = image + HTML_EXTENSION
 
