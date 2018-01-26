@@ -78,9 +78,9 @@ cwd = os.getcwd()
 
 for root, dirs, files in os.walk(cwd):
 
-    dirs = sorted(dirs)
+    dirs = sorted(dirs, reverse=True)
 
-    files = filter(lambda file: file.endswith(IMG_EXTENSION), files)
+    files = filter(lambda file: file.lower().endswith(IMG_EXTENSION), files)
     files = filter(lambda file: not file.startswith(PREVIEW_PREFIX), files)
     files = sorted(files)
 
@@ -146,3 +146,4 @@ for root, dirs, files in os.walk(cwd):
 
     with open(index_file, 'w') as index_file:
         index_file.write(list_html)
+
