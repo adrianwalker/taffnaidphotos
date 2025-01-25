@@ -153,3 +153,8 @@ resource "aws_route53_record" "taffnaidphotos_A" {
 output "certificate_arn" {
   value = data.aws_acm_certificate.taffnaidphotos.arn
 }
+
+# Output the DNS servers for the Route 53 hosted zone
+output "dns_servers" {
+  value = aws_route53_zone.taffnaidphotos.name_servers
+}
