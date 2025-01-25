@@ -1,5 +1,12 @@
+# Default provider for eu-west-2
 provider "aws" {
   region = "eu-west-2"
+}
+
+# Second provider for us-east-1 (required for ACM certificates used by CloudFront)
+provider "aws" {
+  alias  = "us-east-1"
+  region = "us-east-1"
 }
 
 # S3 Bucket for hosting the website
@@ -58,6 +65,13 @@ resource "aws_s3_bucket_policy" "taffnaidphotos" {
   })
 }
 
+# Import existing ACM certificate in us-east-1
+data "aws_acm_certificate" "taffnaidphotos" {
+  provider = aws.us-east-1
+  domain   = "taffnaid.photos"
+  statuses = ["ISSUED"]
+}
+
 # CloudFront Distribution
 resource "aws_cloudfront_distribution" "taffnaidphotos" {
   origin {
@@ -103,7 +117,7 @@ resource "aws_cloudfront_distribution" "taffnaidphotos" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "arn:aws:acm:us-east-1:590183793273:certificate/3c74778b-38bd-48ef-8675-660f25078963"
+    acm_certificate_arn      = data.aws_acm_certificate.taffnaidphotos.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -133,4 +147,9 @@ resource "aws_route53_record" "taffnaidphotos_A" {
     zone_id                = aws_cloudfront_distribution.taffnaidphotos.hosted_zone_id
     evaluate_target_health = false
   }
+}
+
+# Output the certificate ARN for verification
+output "certificate_arn" {
+  value = data.aws_acm_certificate.taffnaidphotos.arn
 }
