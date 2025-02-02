@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "taffnaidphotos"
+version = "2.0.0"
+description = ""
+authors = ["Adrian Walker <adrian.walker@bcs.org>"]
+readme = "README.md"
+packages = [{include = "taffnaid"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+boto3 = "^1.36.6"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
