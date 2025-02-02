@@ -60,18 +60,6 @@ resource "aws_s3_bucket_policy" "taffnaidphotos" {
   })
 }
 
-resource "aws_s3_object" "taffnaidphotos_css" {
-  bucket       = aws_s3_bucket.taffnaidphotos.bucket
-  key          = "taffnaidphotos.css"
-  content_type = "text/css"
-  source       = "${path.module}/../web/taffnaidphotos.css"
-  etag = filemd5("${path.module}/../web/taffnaidphotos.css")
-
-  tags = {
-    Name = "taffnaid.photos"
-  }
-}
-
 resource "aws_s3_object" "taffnaidphotos_404" {
   bucket       = aws_s3_bucket.taffnaidphotos.bucket
   key          = "404.html"
@@ -102,6 +90,30 @@ resource "aws_s3_object" "taffnaidphotos_robots" {
   content_type = "text/plain"
   source       = "${path.module}/../web/robots.txt"
   etag = filemd5("${path.module}/../web/robots.txt")
+
+  tags = {
+    Name = "taffnaid.photos"
+  }
+}
+
+resource "aws_s3_object" "taffnaidphotos_css" {
+  bucket       = aws_s3_bucket.taffnaidphotos.bucket
+  key          = "taffnaidphotos.css"
+  content_type = "text/css"
+  source       = "${path.module}/../web/taffnaidphotos.css"
+  etag = filemd5("${path.module}/../web/taffnaidphotos.css")
+
+  tags = {
+    Name = "taffnaid.photos"
+  }
+}
+
+resource "aws_s3_object" "taffnaidphotos_js" {
+  bucket       = aws_s3_bucket.taffnaidphotos.bucket
+  key          = "taffnaidphotos.js"
+  content_type = "text/javascript"
+  source       = "${path.module}/../web/taffnaidphotos.js"
+  etag = filemd5("${path.module}/../web/taffnaidphotos.js")
 
   tags = {
     Name = "taffnaid.photos"
