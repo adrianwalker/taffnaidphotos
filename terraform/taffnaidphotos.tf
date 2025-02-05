@@ -158,9 +158,9 @@ resource "aws_cloudfront_distribution" "taffnaidphotos" {
       }
     }
 
-    min_ttl = 0
+    min_ttl     = 0
     default_ttl = 3600
-    max_ttl = 86400
+    max_ttl     = 86400
   }
 
   restrictions {
@@ -288,6 +288,16 @@ resource "aws_serverlessapplicationrepository_cloudformation_stack" "image_magic
 
   tags = {
     Name = "taffnaid.photos"
+  }
+}
+
+resource "null_resource" "invalidate_cache" {
+  triggers = {
+    run_id = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "aws cloudfront create-invalidation --distribution-id ${aws_cloudfront_distribution.taffnaidphotos.id} --paths '/*'"
   }
 }
 
