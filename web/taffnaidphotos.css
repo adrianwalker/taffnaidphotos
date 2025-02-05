@@ -80,6 +80,11 @@ body {
   color: white;
   padding: 0 1em 0 1em;
   text-decoration: none;
+  text-shadow:
+    1px 1px 1px darkgray,
+    -1px 1px 1px darkgray,
+    -1px -1px 1px darkgray,
+    1px -1px 1px darkgray;
 }
 
 .parent {
