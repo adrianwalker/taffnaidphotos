@@ -6,6 +6,27 @@ resource "aws_s3_bucket" "taffnaidphotos" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "taffnaidphotos" {
+  bucket = aws_s3_bucket.taffnaidphotos.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "taffnaidphotos" {
+  bucket = aws_s3_bucket.taffnaidphotos.id
+
+  rule {
+    id     = "version_expiry"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "taffnaidphotos" {
   bucket = aws_s3_bucket.taffnaidphotos.bucket
 
