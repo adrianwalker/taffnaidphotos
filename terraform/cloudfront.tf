@@ -60,6 +60,10 @@ data "aws_acm_certificate" "taffnaidphotos" {
   provider = aws.us-east-1
   domain   = "taffnaid.photos"
   statuses = ["ISSUED"]
+
+  tags = {
+    Name = "taffnaid.photos"
+  }
 }
 
 resource "null_resource" "invalidate_cache" {
